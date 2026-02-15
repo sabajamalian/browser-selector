@@ -10,6 +10,20 @@ A macOS application that can be set as your default web browser. When you click 
 - 🎨 Clean, native macOS UI built with SwiftUI
 - ⚡ Fast and lightweight
 
+## Quick Start
+
+**New to BrowserSelector?** Check out the [Quick Start Guide](QUICKSTART.md) for a 5-minute setup!
+
+## Documentation
+
+- 📖 [Quick Start Guide](QUICKSTART.md) - Get started in 5 minutes
+- 🛠️ [Developer Guide](DEVELOPER.md) - Technical architecture and development
+- 🧪 [Testing Guide](TESTING.md) - Comprehensive testing procedures
+- 🚀 [Deployment Guide](DEPLOYMENT.md) - Code signing and distribution
+- 🎨 [Icon Guide](ICON.md) - App icon generation
+- 🤝 [Contributing](CONTRIBUTING.md) - How to contribute
+- 📋 [Changelog](CHANGELOG.md) - Version history and roadmap
+
 ## Requirements
 
 - macOS 13.0 or later
