@@ -7,6 +7,8 @@ struct ContentView: View {
     @StateObject private var detector = BrowserDetector()
     @State private var selectedBrowser: Browser?
     @State private var selectedProfile: ChromeProfile?
+    @State private var showError: Bool = false
+    @State private var errorMessage: String = ""
     
     var body: some View {
         VStack(spacing: 20) {
@@ -112,9 +114,26 @@ struct ContentView: View {
             .padding()
         }
         .frame(width: 450, height: 400)
+        .alert("Error", isPresented: $showError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
         .onAppear {
             detector.detectBrowsers()
             detector.detectChromeProfiles()
+        }
+        .onReceive(detector.$browsers) { browsers in
+            // Auto-select first browser if none selected
+            if selectedBrowser == nil, let first = browsers.first {
+                selectedBrowser = first
+            }
+        }
+        .onReceive(detector.$chromeProfiles) { profiles in
+            // Auto-select first profile if Chrome is selected and no profile chosen
+            if selectedBrowser?.type == .chrome, selectedProfile == nil, let first = profiles.first {
+                selectedProfile = first
+            }
         }
     }
     
@@ -130,6 +149,9 @@ struct ContentView: View {
         
         if success {
             closeWindow()
+        } else {
+            errorMessage = "Failed to open URL in \(browser.name). Please try another browser."
+            showError = true
         }
     }
 }

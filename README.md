@@ -63,6 +63,29 @@ Note: The app must be in your Applications folder to appear in the list.
 - **Mozilla Firefox**
 - **Microsoft Edge**
 
+## Troubleshooting
+
+### App doesn't appear in the default browser list
+- Make sure the app is installed in `/Applications/` or `~/Applications/`
+- Restart your Mac after installation
+- Check that Info.plist has the correct URL scheme configuration
+
+### No browsers detected
+- Ensure you have Chrome, Firefox, or Edge installed in `/Applications/`
+- The app looks for browsers using their bundle identifiers
+- Check browser installation paths in the app logs
+
+### Chrome profiles not showing
+- Open Chrome and verify your profiles exist (Chrome menu > Profile)
+- Check that Chrome profile directories exist at:
+  `~/Library/Application Support/Google/Chrome/`
+- Each profile should have a `Preferences` file
+
+### URL doesn't open
+- Verify the selected browser is properly installed
+- Check that the browser has permission to open
+- Try selecting a different browser
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details
