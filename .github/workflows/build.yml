@@ -1,0 +1,61 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build BrowserSelector
+    runs-on: macos-13
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.0'
+    
+    - name: Build
+      run: |
+        xcodebuild -project BrowserSelector.xcodeproj \
+          -scheme BrowserSelector \
+          -configuration Release \
+          -derivedDataPath build \
+          build
+    
+    - name: Verify Build
+      run: |
+        if [ -d "build/Build/Products/Release/BrowserSelector.app" ]; then
+          echo "✅ Build successful"
+          ls -lh build/Build/Products/Release/BrowserSelector.app
+        else
+          echo "❌ Build failed"
+          exit 1
+        fi
+    
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: BrowserSelector-${{ github.sha }}
+        path: build/Build/Products/Release/BrowserSelector.app
+        retention-days: 7
+
+  lint:
+    name: Swift Lint (Optional)
+    runs-on: macos-13
+    continue-on-error: true
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install SwiftLint
+      run: brew install swiftlint
+    
+    - name: Run SwiftLint
+      run: swiftlint lint --reporter github-actions-logging || true
